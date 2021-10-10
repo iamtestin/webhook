@@ -28,8 +28,6 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		// this is a commit push, do something with it
 		fmt.Printf("Head: %v\n", *e.Head)
 		fmt.Printf("Ref: %v\n", *e.Ref)
-		fmt.Printf("Push ID: %v\n", *e.PushID)
-		fmt.Printf("Pusher: %v\n", *e.Pusher)
 	case *github.PullRequestEvent:
 		// this is a pull request, do something with it
 		fmt.Printf("Action: %v\n", *e.Action)
