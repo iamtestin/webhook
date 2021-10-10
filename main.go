@@ -26,8 +26,8 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("PONG!"))
 	case *github.PushEvent:
 		// this is a commit push, do something with it
-		fmt.Printf("Head: %v\n", *e.Head)
-		fmt.Printf("Ref: %v\n", *e.Ref)
+		fmt.Printf("Head: %v\n", e.Head)
+		fmt.Printf("Ref: %v\n", e.Ref)
 	case *github.PullRequestEvent:
 		// this is a pull request, do something with it
 		fmt.Printf("Action: %v\n", *e.Action)
