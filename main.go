@@ -26,12 +26,16 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("PONG!"))
 	case *github.PushEvent:
 		// this is a commit push, do something with it
+		fmt.Printf("Head: %v\n", e.GetHead())
+		fmt.Printf("Ref: %v\n", e.GetRef())
+		fmt.Printf("Sender: %v\n", *e.GetSender().Login)
+		fmt.Printf("Puhser: %v\n", *e.GetPusher().Name)
 	case *github.PullRequestEvent:
 		// this is a pull request, do something with it
-		fmt.Printf("Action: %v\n", *e.Action)
-		fmt.Printf("Number: %v\n", *e.Number)
-		fmt.Printf("PR ID: %v\n", *e.PullRequest.ID)
-		fmt.Printf("PR No: %v\n", *e.PullRequest.Number)
+		fmt.Printf("Action: %v\n", e.GetAction())
+		fmt.Printf("Number: %v\n", e.GetNumber())
+		fmt.Printf("PR ID: %v\n", *e.GetPullRequest().ID)
+		fmt.Printf("PR No: %v\n", *e.GetPullRequest().Number)
 	case *github.WatchEvent:
 		// https://developer.github.com/v3/activity/events/types/#watchevent
 		// someone starred our repository
