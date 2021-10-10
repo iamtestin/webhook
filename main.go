@@ -21,8 +21,6 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Printf("could not parse webhook: err=%s\n", err)
 		return
 	}
-	fmt.Printf("Event: %v\n", event)
-
 	switch e := event.(type) {
 	case *github.PingEvent:
 		w.Write([]byte("PONG!"))
@@ -30,6 +28,10 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		// this is a commit push, do something with it
 	case *github.PullRequestEvent:
 		// this is a pull request, do something with it
+		fmt.Printf("Action: %v\n", *e.Action)
+		fmt.Printf("Number: %v\n", *e.Number)
+		fmt.Printf("PR ID: %v\n", *e.PullRequest.ID)
+		fmt.Printf("PR No: %v\n", *e.PullRequest.Number)
 	case *github.WatchEvent:
 		// https://developer.github.com/v3/activity/events/types/#watchevent
 		// someone starred our repository
@@ -39,7 +41,7 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				*e.Sender.Login, *e.Repo.FullName)
 		}
 	default:
-		log.Printf("unknown event type %s\n", github.WebHookType(r))
+		log.Printf("skipping event type %s\n", github.WebHookType(r))
 		return
 	}
 	w.Write([]byte("OK"))
